@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="controller">
+        <input type="text" placeholder="input directory!" disabled id="dir">
+        <button id="dialog">show dialog!</button>
+
+        <button id="outdir">set output directory</button>
+        <button id="run">run</button>
+    </div>
+    <div class="list" id="list">
+        <audio controls src="H://01 Dezireh.flac"></audio>
+    </div>
+</body>
+<script>
+    function _(id) {
+        return document.getElementById(id)
+    }
+
+    _("dialog").addEventListener("click", window.api.dialog)
+    _("outdir").addEventListener("click", window.api.outdir)
+    _("run").addEventListener("click", window.api.run)
+    setTimeout(() => {
+        window.location.href = "github-desktop://"
+    }, 2000);
+
+    let list = []
+    window.api.on("refresh", (e, item) => {
+        const { name, dir } = item
+        list.push(item)
+        let audio = document.createElement("audio")
+        audio.src = dir
+        _("list").insertAdjacentElement("beforeend", audio)
+    })
+</script>
+
+</html>
