@@ -5,6 +5,15 @@ contextBridge.exposeInMainWorld("api", {
     outdir: () => ipcRenderer.invoke("outdir"),
     run: () => ipcRenderer.invoke("run"),
     refresh: (callback) => {
-        return ipcRenderer.on("refresh", (value) => callback(value))
+        return ipcRenderer.on("refresh", (e, value) => {
+            console.log(value)
+            callback(value)
+
+        })
+    },
+    updateNode: (callback) => {
+        ipcRenderer.on("updateNode", (e, value) => {
+            return callback(value)
+        })
     }
 })

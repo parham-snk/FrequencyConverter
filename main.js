@@ -27,6 +27,7 @@ app.whenReady().then(async () => {
         });
         if (!result.canceled) {
             inDir = result.filePaths[0]
+            win.webContents.send("updateNode",{id:"in_dir",value:inDir})
 
         }
     })
@@ -38,6 +39,7 @@ app.whenReady().then(async () => {
 
         if (!out.canceled) {
             outdir = out.filePaths[0]
+            win.webContents.send("updateNode",{id:"out_dir",value:outdir})
         }
     })
 
@@ -55,9 +57,6 @@ app.whenReady().then(async () => {
                 const dir = path.join(inDir, file)
                 const output = path.join(outdir, file)
                 exec(`ffmpeg -i "${dir}" -af \"asetrate=44100*432/440\"  "${output}"`, (err, std, stderr) => {
-                    if (err && stderr) {
-                        return console.log(err, stderr)
-                    }
                     win.webContents.send("refresh", { name: file, dir: output })
                 })
             })
