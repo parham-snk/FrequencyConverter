@@ -24,9 +24,15 @@
         </div>
         <div class="box">
             <button id="run">run</button>
+            <div style="margin-left: 5px;" id="qty"></div>
         </div>
     </div>
     <div class="list" id="list">
+        <div class="" style="display: flex;">
+            <div id="passed">0</div>
+            <p style="margin: 0 5px;">from</p>
+            <div id="total">0</div>
+        </div>
     </div>
     <audio controls src="" id="audio"></audio>
 </body>
@@ -39,6 +45,12 @@
     _("dialog").addEventListener("click", window.api.dialog)
     _("outdir").addEventListener("click", window.api.outdir)
     _("run").addEventListener("click", () => {
+        _("list").innerHTML = `<div class="" style="display: flex;">
+            <div id="passed"></div>
+            <p style="margin: 0 5px;">from</p>
+            <div id="total"></div>
+        </div>`;
+
         if (_("in_dir").value != "" && _("out_dir").value != "") {
             window.api.run()
         } else {
@@ -55,7 +67,7 @@
         li.id = "#li"
         //
         let t = ".../" + (dir.slice(((String(dir).length) - 30), ((dir.length))))
-        li.insertAdjacentHTML("afterbegin", `<p>${t}</P>`)
+        li.insertAdjacentHTML("beforeend", `<p>${t}</P>`)
         li.addEventListener("click", (e) => {
             main_audio.src = dir
             main_audio.play()
@@ -71,6 +83,9 @@
     })
 
     window.api.updateNode(({ id, value }) => {
+        if (_(id).tagName == "DIV") {
+            return _(id).innerHTML = value
+        }
         _(id).value = value
     })
 </script>
